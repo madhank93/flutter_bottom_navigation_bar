@@ -39,11 +39,15 @@ class SnackBarBody extends StatelessWidget {
             style: TextStyle(color: Colors.white),
           ),
           onPressed: () {
-            Scaffold.of(context).showSnackBar(
-              SnackBar(
-                content: Text('Snack bar activated'),
-                duration: Duration(seconds: 3),
-              ),
+            showDialog(
+              context: context,
+              builder: (_) {
+                return AlertDialog(
+                  content: Text('Dialog box is up'),
+                  title: Text('Dialog title'),
+                  titlePadding: EdgeInsets.all(10),
+                );
+              },
             );
           },
           color: Colors.red,
