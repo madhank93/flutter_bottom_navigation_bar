@@ -6,6 +6,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Bottom navigation',
       home: HomePage(),
     );
@@ -17,40 +18,61 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+  TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Bottom navigation"),
-        ),
-        body: SnackBarBody());
+      appBar: AppBar(
+        title: Text("Bottom navigation"),
+      ),
+      body: TabBarView(
+        controller: tabController,
+        children: <Widget>[
+          DummyPage('Phone'),
+          DummyPage('Favorites'),
+          DummyPage('Contacts'),
+        ],
+      ),
+      bottomNavigationBar: Material(
+        color: Colors.red,
+        child: TabBar(controller: tabController, tabs: <Widget>[
+          Tab(icon: Icon(Icons.phone)),
+          Tab(icon: Icon(Icons.favorite)),
+          Tab(icon: Icon(Icons.contacts))
+        ]),
+      ),
+    );
   }
 }
 
-class SnackBarBody extends StatelessWidget {
+class DummyPage extends StatelessWidget {
+  final String title;
+  DummyPage(this.title);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: RaisedButton(
-          child: Text(
-            'Click me!',
-            style: TextStyle(color: Colors.white),
+    return Scaffold(
+      body: Center(
+        child: Text(
+          title,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 15,
           ),
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (_) {
-                return AlertDialog(
-                  content: Text('Dialog box is up'),
-                  title: Text('Dialog title'),
-                  titlePadding: EdgeInsets.all(10),
-                );
-              },
-            );
-          },
-          color: Colors.red,
         ),
       ),
     );
