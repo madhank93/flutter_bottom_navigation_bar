@@ -39,6 +39,14 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
       appBar: AppBar(
         title: Text("Bottom navigation"),
+        bottom: TabBar(
+          controller: tabController,
+          tabs: <Widget>[
+            Tab(icon: Icon(Icons.phone)),
+            Tab(icon: Icon(Icons.favorite)),
+            Tab(icon: Icon(Icons.contacts))
+          ],
+        ),
       ),
       body: TabBarView(
         controller: tabController,
@@ -47,14 +55,6 @@ class _HomePageState extends State<HomePage>
           DummyPage('Favorites'),
           DummyPage('Contacts'),
         ],
-      ),
-      bottomNavigationBar: Material(
-        color: Colors.red,
-        child: TabBar(controller: tabController, tabs: <Widget>[
-          Tab(icon: Icon(Icons.phone)),
-          Tab(icon: Icon(Icons.favorite)),
-          Tab(icon: Icon(Icons.contacts))
-        ]),
       ),
     );
   }
